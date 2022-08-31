@@ -1,0 +1,19 @@
+export { Course } from './course';
+
+export { AcademicExercise } from './academic-exercise';
+export { Archaeology } from './archaeology';
+export { CounterculturalStudies } from './countercultural-studies';
+export { DarkArt } from './dark-art';
+export { FunnyBusiness } from './funny-business';
+export { Gastronomy } from './gastronomy';
+export { GeneralKnowledge } from './general-knowledge';
+export { InternetHistory } from './internet-history';
+export { KnightSchool } from './knight-school';
+export { MoneyWangling } from './money-wangling';
+export { Musicality } from './musicality';
+export { Robotics } from './robotics';
+export { SchoolOfThought } from './school-of-thought';
+export { Scientography } from './scientography';
+export { SpySchool } from './spy-school';
+export { VirtualNormality } from './virtual-normality';
+export { Wizardry } from './wizardry';
