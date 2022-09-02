@@ -45,8 +45,30 @@ export abstract class Course implements ICourse {
      * need to be used.
      */
     get classCounts(): ClassCount[] {
-        // TODO: Build this function
-        return [];
+        const classGroups = this.intake / 8;
+
+        const classCounts: ClassCount[] = [];
+        for (const cy of this.courseYears) {
+
+            const roomCounts:RoomCount[] = [];
+            for (const code of cy.rooms) {
+                // Some classes use the same room multiple times in a year.
+                // See if we've already started a count for this room
+                const existingCount = roomCounts.find((r) => r.code == code);
+
+                if (existingCount) {
+                    // If we started a count already, add to it
+                    existingCount.count += classGroups;
+                } else {
+                    // Otherwise, start a new count
+                    roomCounts.push({ code, count: classGroups });
+                }
+            }
+
+            classCounts.push({ year: cy.year, counts: roomCounts });
+        }
+
+        return classCounts;
     }
 
     /**
@@ -58,7 +80,34 @@ export abstract class Course implements ICourse {
      * by one course.
      */
     get roomCounts(): RoomCount[] {
-        // TODO: Build this function
-        return [];
+        const finalCounts:RoomCount[] = [];
+
+        /*  This loop builds the total counts for each use of rooms across
+        all years of the course  */
+        for (const c of this.classCounts) {
+            for (const r of c.counts) {
+                const existingCount = finalCounts.find((ec) => ec.code = r.code);
+
+                if (existingCount) {
+                    // If we started a count for this room, add to it.
+                    existingCount.count += r.count;
+                } else {
+                    // Otherwise start a new count
+                    finalCounts.push({ code: r.code, count: r.count});
+                    /*  NOTE: functionally, we could probably just do
+                    finalCounts.push(r) here and get the same result, but I'd
+                    rather not manipulate the original classCount results  */
+                }
+            }
+        }
+
+        /*  Now that we know the total number of times each room is used in a year
+        we need to divide each of those totals by 6 to determine how many copies
+        of the room to place in our campus (rounding up)  */
+        finalCounts.forEach((c) => {
+            c.count = Math.ceil(c.count / 6);
+        });
+
+        return finalCounts;
     }
 }
