@@ -1,0 +1,23 @@
+
+version: '3.7'
+services:
+  app:
+    image: 'tpc-course-planner'
+    build:
+      context: .
+      target: dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/components:/app/components
+      - ./src/interfaces:/app/interfaces
+      - ./src/models:/app/models
+      - ./src/pages:/app/pages
+      - ./src/public:/app/public
+      - ./src/styles:/app/styles
+      - ./src/utils:/app/utils
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
